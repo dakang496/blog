@@ -1,0 +1,10 @@
+node_sass:
+  outputStyle: nested
+  precision: 5
+  sourceComments: false
+
+autoprefixer:
+  exclude:
+    - '*.min.css'
+  browsers:
+    - 'last 2 versions'
