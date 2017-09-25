@@ -1,46 +1,30 @@
 <div class="content">
   <ul class="mb-4">
-    <li class="card border-0 ">
-      <div class="card-body pl-0">
-        <h4 class="card-title">
-          <a href="./">lalaa</a>
-        </h4>
-        <p class="mb-2">
-          <i class="fa fa-calendar" aria-hidden="true"></i> 2017年09月02日
-        </p>
-        <p class="card-text">在一个秋日的周末睡了整整一天，一睁眼竟已是傍晚。不知道刚刚过去的五天工作日中到底消耗了多少精力，亏欠了多少睡眠。很久没有睡得如此昏天黑地而心满意足了——不知从何时开始，本可以肆无忌惮地懒觉的时候，却总是过早惊醒，意犹未尽。听说人老了就会醒得很早，这让我感到惶恐。我宁愿每天叫醒我的不是梦想，而是闹钟。</p>
-        <a class="btn btn-outline-secondary float-right" href="#" role="button">阅读全文</a>
-      </div>
-    </li>
-    <li class="card border-0 ">
-      <div class="card-body pl-0">
-        <h4 class="card-title">
-          <a href="./">lalaa</a>
-        </h4>
-        <p class="mb-2">
-          <i class="fa fa-calendar" aria-hidden="true"></i> 2017年09月02日
-        </p>
-        <p class="card-text">在一个秋日的周末睡了整整一天，一睁眼竟已是傍晚。不知道刚刚过去的五天工作日中到底消耗了多少精力，亏欠了多少睡眠。很久没有睡得如此昏天黑地而心满意足了——不知从何时开始，本可以肆无忌惮地懒觉的时候，却总是过早惊醒，意犹未尽。听说人老了就会醒得很早，这让我感到惶恐。我宁愿每天叫醒我的不是梦想，而是闹钟。</p>
-        <a class="btn btn-outline-secondary float-right" href="#" role="button">阅读全文</a>
-      </div>
-    </li>
-    <li class="card border-0 ">
-      <div class="card-body pl-0">
-        <h4 class="card-title">
-          <a href="./">lalaa</a>
-        </h4>
-        <p class="mb-2">
-          <i class="fa fa-calendar" aria-hidden="true"></i> 2017年09月02日
-        </p>
-        <p class="card-text">在一个秋日的周末睡了整整一天，一睁眼竟已是傍晚。</p>
-        <a class="btn btn-outline-secondary float-right" href="#" role="button">阅读全文</a>
-      </div>
-    </li>
+    <% page.posts.each(function(post){%>
+      <li class="card border-0 ">
+        <div class="card-body pl-0">
+          <h4 class="card-title">
+            <a href="<%- url_for(post.path) %>"><%= post.title %></a>
+          </h4>
+          <p class="mb-2">
+            <i class="fa fa-calendar" aria-hidden="true"></i> <%= date(post.date) %>
+          </p>
+          <div class="card-text">
+            <div class="post-excerpt">
+              <%- post.excerpt %>
+            </div>
+          </div>
+          <a class="btn btn-outline-secondary float-right" href="<%- url_for(post.path) %>" role="button">阅读全文</a>
+        </div>
+      </li> 
+    <% }); %>
   </ul>
 
+  <% if (page.total > 1 ){ %>
   <div class="page-navigator">
-    <%- paginator({prev_text:'<i class="fa fa-angle-double-left" aria-hidden="true"></i>上一页',next_text:'下一页<i class="fa fa-angle-double-right" aria-hidden="true"></i>',total:8,current:3}) %>
+    <%- paginator({prev_text:'<i class="fa fa-angle-double-left" aria-hidden="true"></i>上一页',next_text:'下一页<i class="fa fa-angle-double-right" aria-hidden="true"></i>'}) %>
   </div>
+  <% } %>
 
 
 </div>

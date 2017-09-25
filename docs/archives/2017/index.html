@@ -1,20 +1,115 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
- 
+  <!-- Bootstrap Core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <div class="outer">
-        <section id="main"></section>
-      </div>
-      
-    </div>
+  <body>
     
+    
+    <div class="container main mt-4">
+      <div class="row">
+        <div class="col pr-4">
+          <div class="content">
+  <ul class="mb-4">
+    
+      <li class="card border-0 ">
+        <div class="card-body pl-0">
+          <h4 class="card-title">
+            <a href="/2017/09/20/async/">异步操作</a>
+          </h4>
+          <p class="mb-2">
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2017-09-20
+          </p>
+          <div class="card-text">
+            <div class="post-excerpt">
+              <h2 id="异步处理的方式"><a href="#异步处理的方式" class="headerlink" title="异步处理的方式"></a>异步处理的方式</h2><ul>
+<li><p>最早是使用回调，但如果有多个，并且串行的话，就会嵌套了，在代码阅读和理解上增加了难度。</p>
+</li>
+<li><p>后来有了Promise，解决了这个问题。但是编写起来时，还是没办法做到与同步代码一样。(ES6)</p>
+</li>
+<li><p>接着新增了generator函数，但是需要自己处理流程管理。（ES6）</p>
+</li>
+<li><p>最后新增了async函数，解决了上面流程管理的问题。(ES7)</p>
+</li>
+</ul>
+<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2>
+            </div>
+          </div>
+          <a class="btn btn-outline-secondary float-right" href="/2017/09/20/async/" role="button">阅读全文</a>
+        </div>
+      </li> 
+    
+      <li class="card border-0 ">
+        <div class="card-body pl-0">
+          <h4 class="card-title">
+            <a href="/2017/09/15/webpack-loader/">webpack-loader</a>
+          </h4>
+          <p class="mb-2">
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2017-09-15
+          </p>
+          <div class="card-text">
+            <div class="post-excerpt">
+              <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>webpack的loader是用来处理各种资源，并把资源转为javaScript模块。<br>这个过程就像流水线，原材料(资源)经过一道道工序(loader),最后得到产品（javaScript模块）。</p>
+<h2 id="loader的处理过程"><a href="#loader的处理过程" class="headerlink" title="loader的处理过程"></a>loader的处理过程</h2>
+            </div>
+          </div>
+          <a class="btn btn-outline-secondary float-right" href="/2017/09/15/webpack-loader/" role="button">阅读全文</a>
+        </div>
+      </li> 
+    
+  </ul>
+
+  
+
+
+</div>
+        </div>
+        <span class="controller">
+    <!-- <i class="fa fa-plus" aria-hidden="true"></i> -->
+    <i class="fa fa-times" aria-hidden="true"></i>
+</span>
+<div class="pl-0 pr-0 pt-4 sidebar">
+  <div class="pl-4 pr-4 pb-4 sidebar-inner">
+    <a href="/" class="d-flex justify-content-center">
+      <img src="/images/avatar.png">
+    </a>
+    <div class="category mb-5">
+      <div class="mt-2 pb-2 category-title">
+        <i class="fa fa-user" aria-hidden="true"></i>
+        <span>介绍</span>
+      </div>
+      <div class="category-list mt-2">
+        前端菜鸟
+      </div>
+    </div>
+    <div class="category  mb-5">
+      <div class="mt-2 pb-2 category-title">
+        <i class="fa fa-tags" aria-hidden="true"></i>
+        <span>标签</span>
+      </div>
+      <div class="category-list mt-2">
+        <a href="#" class="entry">webpack</a>
+        <a href="#" class="entry">vue</a>
+        <a href="#" class="entry">es6</a>
+        <a href="#" class="entry">react</a>
+        <a href="#" class="entry">hexo</a>
+        <a href="#" class="entry">网络</a>
+      </div>
+    </div>
   </div>
-</body>
-</html>
+</div>
+      </div>
+    </div>
+
+      <script src="/assets/jquery-3.2.1.min.js"></script>
+<script src="/js/common.js"></script>
+  </body>
+
+  </html>

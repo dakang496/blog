@@ -3,13 +3,13 @@
 //     max-width: 1344px;
 //   }
 // }
-
-#article{
-  // @import './markdown-css-themes/markdown2';
-  @import './_partial/markdown2';
+#article {
+  .title {
+    text-align: center;
+    border-bottom: none;
+  }
+  @import './_partial/markdown';
 }
-
-
 
 body {
   font-family: "PingFangSC-Regular", Helvetica, "Helvetica Neue", "Segoe UI", "Hiragino Sans GB", "Source Han Sans CN", "Microsoft YaHei", "STHeiti", "WenQuanYi Micro Hei", sans-serif !important;
@@ -51,6 +51,12 @@ a {
     }
     .card-text {
       color: #444;
+      .post-excerpt {
+        * {
+          display: inline !important;
+          font-size: 1rem !important;
+        }
+      }
     }
     .page-navigator {
       border-top: 1px solid #ddd;
@@ -105,11 +111,11 @@ a {
     right: 1rem; // top: -1rem;
     top: 0;
     font-size: 20px;
-    transition: all 0.5s;
+    transition: all 0.4s;
     transform: rotateZ(0deg);
   }
   .sidebar {
-    transition: all 0.5s;
+    transition: all 0.4s;
     overflow: hidden;
     width: 25%;
     .sidebar-inner {

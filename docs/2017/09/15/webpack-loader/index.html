@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- Bootstrap Core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    
+    
+    <div class="container main mt-4">
+      <div class="row">
+        <div class="col pr-4">
+          <div>
+  <div id="article">
+    <h1 class="title">webpack-loader</h1>
+    <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>webpack的loader是用来处理各种资源，并把资源转为javaScript模块。<br>这个过程就像流水线，原材料(资源)经过一道道工序(loader),最后得到产品（javaScript模块）。</p>
+<h2 id="loader的处理过程"><a href="#loader的处理过程" class="headerlink" title="loader的处理过程"></a>loader的处理过程</h2><p>同一种资源也可能被多个loader处理，它们是串行的，前一个loader处理完就交给下一个loader。<br>对于每个loader都会经过两个过程pitch和normal(自己取的名字)，如下：<br><img src="/images/webpack-loader-order.png" alt="loader处理过程"></p>
+<ul>
+<li>先经历pitch过程，从上往下（从后置loader到前置loader），调用loader的pitch方法，资源并没有被处理。</li>
+<li>如果某个loader的pitch方法，有返回值，则它下面的loader不再被调用。直接从这个loader起进入normal过程，并且把返回值当前新资源（原来的资源丢弃）。</li>
+<li>normal的过程，从下往上资源被一个个loader处理，最后得到最终的JavaScript模块。</li>
+</ul>
+<h2 id="loader分类"><a href="#loader分类" class="headerlink" title="loader分类"></a>loader分类</h2><ul>
+<li>配置中定义的loader一般都是<code>普遍loader</code></li>
+<li>配置中enforce字段的值可为post和pre，分别对应<code>后置loader</code>和<code>前置loader</code></li>
+<li>在代码中指定使用的loader为<code>行内loader</code></li>
+</ul>
+<blockquote>
+<p>配置中同类型(普遍、前置或者后置)的loader在normal过程执行顺序，是根据在rules数组中的位置确定的，越靠后越先执行。<br>行内loader则是从右往左执行。例如require(‘style-loader!css-loader!global.css’)，先执行css-loader，再执行style-loader</p>
+</blockquote>
+<p>还会存在被忽略的情况:  </p>
+<ul>
+<li>所有普通loader可以通过在请求中加上 ! 前缀来忽略（覆盖）。</li>
+<li>所有普通和前置loader可以通过在请求中加上 -! 前缀来忽略（覆盖）。</li>
+<li>所有普通，后置和前置loader可以通过在请求中加上 !! 前缀来忽略（覆盖）。</li>
+</ul>
+<blockquote>
+<p>官方建议：应该使用行内 loader 和 ! 前缀，因为它们是非标准的。它们可在由 loader 生成的代码中使用。 </p>
+</blockquote>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>具体使用和理解可以见后续笔记。</p>
+
+  </div>
+</div>
+        </div>
+        <span class="controller">
+    <!-- <i class="fa fa-plus" aria-hidden="true"></i> -->
+    <i class="fa fa-times" aria-hidden="true"></i>
+</span>
+<div class="pl-0 pr-0 pt-4 sidebar">
+  <div class="pl-4 pr-4 pb-4 sidebar-inner">
+    <a href="/" class="d-flex justify-content-center">
+      <img src="/images/avatar.png">
+    </a>
+    <div class="category mb-5">
+      <div class="mt-2 pb-2 category-title">
+        <i class="fa fa-user" aria-hidden="true"></i>
+        <span>介绍</span>
+      </div>
+      <div class="category-list mt-2">
+        前端菜鸟
+      </div>
+    </div>
+    <div class="category  mb-5">
+      <div class="mt-2 pb-2 category-title">
+        <i class="fa fa-tags" aria-hidden="true"></i>
+        <span>标签</span>
+      </div>
+      <div class="category-list mt-2">
+        <a href="#" class="entry">webpack</a>
+        <a href="#" class="entry">vue</a>
+        <a href="#" class="entry">es6</a>
+        <a href="#" class="entry">react</a>
+        <a href="#" class="entry">hexo</a>
+        <a href="#" class="entry">网络</a>
+      </div>
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+
+      <script src="/assets/jquery-3.2.1.min.js"></script>
+<script src="/js/common.js"></script>
+  </body>
+
+  </html>

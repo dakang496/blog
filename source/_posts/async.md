@@ -21,7 +21,7 @@ tags:
 
 例如：
 
-```
+```JavaScript
 [1,2,3].map(n => n + 1);
 ```
 
@@ -29,7 +29,7 @@ tags:
 转为
 
 
-```
+```JavaScript
 [1,2,3].map(function(n) {
     return n + 1;
 });
@@ -42,30 +42,30 @@ tags:
 
 - 目录下新建package.json文件
 
-```
+```Bash
 $ npm init
 ```
 
 - 安装用于编译文件的Babel内置命令行工具[详细](http://babeljs.io/docs/usage/cli/)
 
-```
+```Bash
 $ npm install --save-dev  babel-cli
 ```
 
 - 安装ES2015 preset
 
-```
+```Bash
 $ npm install --save-dev babel-preset-es2015  
 ```
 
 - 新建.babelrc文件，并编辑
 
-```
+```Bash
 $ vi .babelrc  
 ```
 
 
-```
+```Bash
 {
   "presets":["es2015"]
 }
@@ -74,18 +74,18 @@ $ vi .babelrc  
 
 - 安装Babel插件  [generator](http://babeljs.io/docs/plugins/transform-regenerator/) [async](http://babeljs.io/docs/plugins/syntax-async-functions/)
 
-```
+```Bash
 npm install babel-plugin-transform-regenerator
 ```
 
-```
+```Bash
 npm install babel-plugin-syntax-async-functions
 ```
 
 在.baelrc中设置插件
 
 
-```
+```JSON
 {
   "presets":["es2015"],
   "plugins": ["syntax-async-functions","transform-regenerator"]
@@ -96,7 +96,7 @@ npm install babel-plugin-syntax-async-functions
 
 - 编译代码 [详细可见](https://babeljs.io/docs/usage/cli/)
 
-```
+```Bash
 $ babel script.js --watch --out-file script-compiled.js
 ```
 
@@ -119,7 +119,7 @@ $ babel script.js --watch --out-file script-compiled.js
 可以看到嵌套了两个回调，如果嵌套多了，写起来复杂，还难懂。
 
 
-```
+```JavaScript
 function fetchBook(success,error){
     $.ajax({
         url:'/say/data/book.json',
@@ -148,17 +148,18 @@ fetchBook(function(data){
 
 
 ### 使用Promise
-几种状态：
-+ 已完成（resolved，又称fulfilled） - 与 promise 有关的操作成功
-+ 已拒绝（rejected） - 与 promise 有关的操作失败
-+ 待定（pending） - 尚未执行或拒绝
-+ 已解决 - 已执行或拒绝  -->这个不清楚是否也属于一种状态，是否是finally
+几种状态：  
+
+- 已完成（resolved，又称fulfilled） - 与 promise 有关的操作成功
+- 已拒绝（rejected） - 与 promise 有关的操作失败
+- 待定（pending） - 尚未执行或拒绝
+- 已解决 - 已执行或拒绝  -->这个不清楚是否也属于一种状态，是否是finally
 
 下面代码的功能和上面一样，但是改成了Promise的形式，没有了嵌套回调，简洁了很多。
 
 请求网络数据时也可以使用更简洁的fetch。
 
-```
+```JavaScript
 function fetchBook() {
 
     return new Promise(function(resolve,reject){
@@ -205,7 +206,7 @@ fetchBook().then(function(data){
 就像下面代码中，返回值都是promise，如果要控制执行generator函数的下一步，就可以在promise.then方法中调用next方法。采用递归的方式，可以不断执行next方法，直到generator函数结束。
 
 
-```
+```JavaScript
 function fetchBook() {
     return fetch('/say/data/book.json').then((response)=>response.json());
 }
@@ -261,7 +262,7 @@ executeGen(gen());*/
 如你所见，没有了流程管理，更加简洁。
 
 
-```
+```JavaScript
 function fetchBook() {
     return fetch('/say/data/book.json').then((response)=>response.json());
 }
