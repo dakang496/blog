@@ -1,7 +1,20 @@
 <%- partial('_partial/head') %>
 
   <body>
-    <%- body %>
+    <% if(path==='index.html'){ %>
+      <%- partial('_partial/header') %>
+    <% } %>
+    
+    <div class="container main mt-4">
+      <div class="row">
+        <div class="col pr-4">
+          <%- body %>
+        </div>
+        <%- partial('_partial/sidebar') %>
+      </div>
+    </div>
+
+      <%- partial('_partial/script', {post: page}) %>
   </body>
 
   </html>
