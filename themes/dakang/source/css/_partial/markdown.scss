@@ -50,6 +50,11 @@ a {
   color: #4183C4;
 }
 
+// 图片
+img {
+  max-width: 100%;
+}
+
 // 段落
 p {
   margin: 0.8em 0;
@@ -80,14 +85,14 @@ ol {
 //code
 
 /* syntax highlight*/
-blockquote {
-    border-left: 5px solid #ccc;
-    padding: 15px 20px;
-    margin-top: 10px;
-    border-left: 5px solid #657b83;
-    background: #f6f6f6;
-}
 
+blockquote {
+  border-left: 5px solid #ccc;
+  padding: 15px 20px;
+  margin-top: 10px;
+  border-left: 5px solid #657b83;
+  background: #f6f6f6;
+}
 
 figure.highlight,
 .codeblock {
@@ -95,7 +100,7 @@ figure.highlight,
   margin: 10px 0;
   line-height: 1.1em;
   color: #333; // padding-top:    15px;
-  overflow: hidden;
+  overflow: auto;
   table {
     display: block;
     width: 100%;

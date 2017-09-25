@@ -37,6 +37,8 @@
     color: #777; }
   #article a {
     color: #4183C4; }
+  #article img {
+    max-width: 100%; }
   #article p {
     margin: 0.8em 0; }
   #article ul,
@@ -70,7 +72,7 @@
     margin: 10px 0;
     line-height: 1.1em;
     color: #333;
-    overflow: hidden; }
+    overflow: auto; }
     #article figure.highlight table,
     #article .codeblock table {
       display: block;
@@ -477,6 +479,9 @@ a {
 
 .header .header-inner {
   border-bottom: 1px solid #e9ecef; }
+  @media (max-width: 768px) {
+    .header .header-inner {
+      text-align: center; } }
   .header .header-inner .describe {
     color: #999; }
 
