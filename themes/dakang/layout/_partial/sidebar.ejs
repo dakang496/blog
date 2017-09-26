@@ -13,22 +13,23 @@
         <span>介绍</span>
       </div>
       <div class="category-list mt-2">
-        前端菜鸟
+        <%= config.description %>
       </div>
     </div>
+    <% if(site.tags.length>0){ %>
+      
     <div class="category  mb-5">
       <div class="mt-2 pb-2 category-title">
         <i class="fa fa-tags" aria-hidden="true"></i>
         <span>标签</span>
       </div>
       <div class="category-list mt-2">
-        <a href="#" class="entry">webpack</a>
-        <a href="#" class="entry">vue</a>
-        <a href="#" class="entry">es6</a>
-        <a href="#" class="entry">react</a>
-        <a href="#" class="entry">hexo</a>
-        <a href="#" class="entry">网络</a>
+        <% site.tags.each(function(tag){ %>
+          
+        <a class="entry"><%= tag.name %></a>
+        <%})%>
       </div>
     </div>
+    <% } %>
   </div>
 </div>

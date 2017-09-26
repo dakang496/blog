@@ -3,14 +3,6 @@
 //     max-width: 1344px;
 //   }
 // }
-#article {
-  .title {
-    text-align: center;
-    border-bottom: none;
-  }
-  @import './_partial/markdown';
-}
-
 body {
   font-family: "PingFangSC-Regular", Helvetica, "Helvetica Neue", "Segoe UI", "Hiragino Sans GB", "Source Han Sans CN", "Microsoft YaHei", "STHeiti", "WenQuanYi Micro Hei", sans-serif !important;
   -webkit-font-smoothing: antialiased;
@@ -134,6 +126,40 @@ a {
           text-decoration: none;
         }
       }
+    }
+  }
+}
+
+#article {
+  padding-bottom: 2rem;
+  @import './_partial/markdown';
+  .title {
+    text-align: center;
+    border-bottom: none;
+  }
+  .navigator {
+    overflow: hidden;
+        border-top: 1px solid gray;
+    padding-top: 1rem;
+    margin-top: 3rem;
+    a{
+      display: inline-block;
+      padding: 0.5rem 0.8rem;
+      border: 1px solid gray;
+      color: #818182;
+      &:hover{
+        color: #fff;
+        background-color: #17a2b8;
+        border: 1px solid #17a2b8;
+      }
+    }
+
+    .prev {
+      float: left;
+      
+    }
+    .next {
+      float: right;
     }
   }
 }

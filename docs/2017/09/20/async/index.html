@@ -19,6 +19,9 @@
           <div>
   <div id="article">
     <h1 class="title">异步操作</h1>
+    <!-- <div class="tags">
+      <a href=""></a>
+    </div> -->
     <h2 id="异步处理的方式"><a href="#异步处理的方式" class="headerlink" title="异步处理的方式"></a>异步处理的方式</h2><ul>
 <li><p>最早是使用回调，但如果有多个，并且串行的话，就会嵌套了，在代码阅读和理解上增加了难度。</p>
 </li>
@@ -92,6 +95,13 @@
 <h3 id="使用async函数"><a href="#使用async函数" class="headerlink" title="使用async函数"></a>使用async函数</h3><p>如你所见，没有了流程管理，更加简洁。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">fetchBook</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> fetch(<span class="string">'/say/data/book.json'</span>).then(<span class="function">(<span class="params">response</span>)=&gt;</span>response.json());</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">counter</span>(<span class="params"></span>)</span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve,reject</span>)</span>&#123;</div><div class="line">        setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            resolve(<span class="number">10</span>);</div><div class="line">        &#125;,<span class="number">3000</span>);</div><div class="line">    &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">doWork</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'开始获取书籍信息'</span>);</div><div class="line">    <span class="keyword">var</span> data=<span class="keyword">await</span> fetchBook();</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'获取的数据:'</span> + <span class="built_in">JSON</span>.stringify(data));</div><div class="line">    <span class="keyword">var</span> num=<span class="keyword">await</span> counter();</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'获取的数值:'</span> + num);</div><div class="line">&#125;</div><div class="line">doWork();</div></pre></td></tr></table></figure>
 
+    <div class="navigator">
+      
+     
+      
+         <a class="next" href="/2017/09/15/webpack-loader/">下一篇</a>
+      
+    </div>
   </div>
 </div>
         </div>
@@ -113,20 +123,36 @@
         前端菜鸟
       </div>
     </div>
+    
+      
     <div class="category  mb-5">
       <div class="mt-2 pb-2 category-title">
         <i class="fa fa-tags" aria-hidden="true"></i>
         <span>标签</span>
       </div>
       <div class="category-list mt-2">
-        <a href="#" class="entry">webpack</a>
-        <a href="#" class="entry">vue</a>
-        <a href="#" class="entry">es6</a>
-        <a href="#" class="entry">react</a>
-        <a href="#" class="entry">hexo</a>
-        <a href="#" class="entry">网络</a>
+        
+          
+        <a class="entry">HTTP权威指南</a>
+        
+          
+        <a class="entry">同源策略</a>
+        
+          
+        <a class="entry">vue源码学习笔记</a>
+        
+          
+        <a class="entry">webpack</a>
+        
+          
+        <a class="entry">异步</a>
+        
+          
+        <a class="entry">loader</a>
+        
       </div>
     </div>
+    
   </div>
 </div>
       </div>
