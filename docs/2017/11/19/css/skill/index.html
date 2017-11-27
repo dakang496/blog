@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- Bootstrap Core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    
+    
+    <div class="container main mt-4">
+      <div class="row">
+        <div class="col pr-4">
+          <div>
+  <div id="article">
+    <h1 class="title">水平放置多块有间隙的内容</h1>
+    <!-- <div class="tags">
+      <a href=""></a>
+    </div> -->
+    <h2 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h2><p>在布局中经常会遇到要在一行内放置多块内容，内容块之间有间隙，内容和行边缘没有间隙；均分且填充满父容器。如下图：</p>
+<p><img src="/images/css-skill.png" alt="行内容"></p>
+<h2 id="常规实现"><a href="#常规实现" class="headerlink" title="常规实现"></a>常规实现</h2><p>每块内容设置固定宽度，给块设置margin作为间隙,第一块或者最后一块的margin为0。<br>每块的内容宽度需要计算得出：<br>父容器内容的总宽度W,一行放置的块数n,每块之间的间隙距离m，则每块内容宽度w=(W-(n-1)*m)/n</p>
+<p>缺点：父容器宽度必须已知且固定不变。还要计算每块内容宽度。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="undefined">*&#123;</span></div><div class="line"><span class="undefined">  box-sizing: border-box;</span></div><div class="line"><span class="undefined">&#125;</span></div><div class="line"><span class="undefined">.content-list &#123;</span></div><div class="line"><span class="undefined">  list-style-type: none;</span></div><div class="line"><span class="undefined">  background-color: yellow;</span></div><div class="line"><span class="undefined">  padding:0;</span></div><div class="line"><span class="undefined">  width: 630px;</span></div><div class="line"><span class="undefined">&#125;</span></div><div class="line"><span class="undefined">.content-list:after&#123;</span></div><div class="line"><span class="undefined">  content: " ";</span></div><div class="line"><span class="undefined">  display: table;</span></div><div class="line"><span class="undefined">  clear: both;</span></div><div class="line"><span class="undefined">&#125;</span></div><div class="line"><span class="undefined">.content-item&#123;</span></div><div class="line"><span class="undefined">  float: left;</span></div><div class="line"><span class="undefined">  width: 200px;</span></div><div class="line"><span class="undefined">  height: 200px;</span></div><div class="line"><span class="undefined">  background-color: red;</span></div><div class="line"><span class="undefined">  margin-left: 15px;</span></div><div class="line"><span class="undefined">&#125;</span></div><div class="line"><span class="undefined">.content-item:first-child&#123;</span></div><div class="line"><span class="undefined">  margin-left:0; </span></div><div class="line"><span class="undefined">&#125;</span></div><div class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"content-list"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"content-item"</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"content-item"</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"content-item"</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div></pre></td></tr></table></figure>
+<p><img src="/images/css-skill3.png" alt="常规实现"></p>
+<h2 id="百分比的实现"><a href="#百分比的实现" class="headerlink" title="百分比的实现"></a>百分比的实现</h2><p>均分往往想到用百分比，但块之间要有间隙，可以在块内部使用padding。则内容之间就能出现间隙了，但可以在设置padding时遇到了阻碍。<br>因为行边缘的块只有一侧才挨着另外的块，所以这个padding不能统一设置成一样的。每块的padding都要通过计算得到。看下图:</p>
+<p><img src="/images/css-skill2.jpeg" alt="padding计算">  </p>
+<p>优点：父容器宽度可以不固定<br>缺点：每块的padding大小不同，需要计算</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="undefined">*&#123;</span></div><div class="line"><span class="undefined">   box-sizing: border-box;</span></div><div class="line"><span class="undefined">&#125;</span></div><div class="line"><span class="undefined">.content-list &#123;</span></div><div class="line"><span class="undefined">  list-style-type: none;</span></div><div class="line"><span class="undefined">  background-color: yellow;</span></div><div class="line"><span class="undefined">  padding:0;</span></div><div class="line"><span class="undefined">  width: 630px;</span></div><div class="line"><span class="undefined">&#125;</span></div><div class="line"><span class="undefined">.content-list:after&#123;</span></div><div class="line"><span class="undefined">  content: " ";</span></div><div class="line"><span class="undefined">  display: table;</span></div><div class="line"><span class="undefined">  clear: both;</span></div><div class="line"><span class="undefined">&#125;</span></div><div class="line"><span class="undefined">.content-item&#123;</span></div><div class="line"><span class="undefined">  float: left;</span></div><div class="line"><span class="undefined">  width: 33.333%;</span></div><div class="line"><span class="undefined">  height: 200px;</span></div><div class="line"><span class="undefined">  background-color: gray;</span></div><div class="line"><span class="undefined">&#125; </span></div><div class="line"><span class="undefined">.content-item-inner&#123;</span></div><div class="line"><span class="undefined">  background-color: red;</span></div><div class="line"><span class="undefined">  width: 100%;</span></div><div class="line"><span class="undefined">  height: 100%;</span></div><div class="line"><span class="undefined">&#125;</span></div><div class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"content-list"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"content-item"</span> <span class="attr">style</span>=<span class="string">"padding-right:10px"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"content-item-inner"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"content-item"</span> <span class="attr">style</span>=<span class="string">"padding-left:5px;padding-right:5px;"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"content-item-inner"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"content-item"</span> <span class="attr">style</span>=<span class="string">"padding-left:10px;"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"content-item-inner"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div></pre></td></tr></table></figure>
+<p><img src="/images/css-skill4.png" alt="百分比实现"></p>
+<h2 id="更好的实现"><a href="#更好的实现" class="headerlink" title="更好的实现"></a>更好的实现</h2><p>上面百分比的实现不够好，padding的计算不太方便。如果每块的padding都相同，这样就方便很多了。这是由于两侧的块在行边缘处没有padding导致的，如果有padding，就会让行两侧边缘和块内容有间隙了，但要求填充一行。<br>但如果父容器增加宽度，这个宽度是两侧间隙之和。这样即使两侧有间隙也没问题了。（bootstrap就是这样做的）</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="undefined">* &#123;</span></div><div class="line"><span class="undefined">  box-sizing: border-box;</span></div><div class="line"><span class="undefined">&#125;</span></div><div class="line"><span class="undefined"></span></div><div class="line"><span class="undefined">.content-list &#123;</span></div><div class="line"><span class="undefined">  list-style-type: none;</span></div><div class="line"><span class="undefined">  background-color: yellow;</span></div><div class="line"><span class="undefined">  padding: 0;</span></div><div class="line"><span class="undefined">  width: 630px;</span></div><div class="line"><span class="undefined">  margin-left: -7.5px;</span></div><div class="line"><span class="undefined">  margin-right: -7.5px;</span></div><div class="line"><span class="undefined">&#125;</span></div><div class="line"><span class="undefined"></span></div><div class="line"><span class="undefined">.content-list:after &#123;</span></div><div class="line"><span class="undefined">  content: " ";</span></div><div class="line"><span class="undefined">  display: table;</span></div><div class="line"><span class="undefined">  clear: both;</span></div><div class="line"><span class="undefined">&#125;</span></div><div class="line"><span class="undefined">.content-item&#123;</span></div><div class="line"><span class="undefined">  float: left;</span></div><div class="line"><span class="undefined">  width: 33.333%;</span></div><div class="line"><span class="undefined">  height: 200px;</span></div><div class="line"><span class="undefined">  padding:0 7.5px;</span></div><div class="line"><span class="undefined">  background-color: gray;</span></div><div class="line"><span class="undefined">&#125; </span></div><div class="line"><span class="undefined">.content-item-inner&#123;</span></div><div class="line"><span class="undefined">  background-color: red;</span></div><div class="line"><span class="undefined">  width: 100%;</span></div><div class="line"><span class="undefined">  height: 100%;</span></div><div class="line"><span class="undefined">&#125;</span></div><div class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"content-list"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"content-item"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"content-item-inner"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"content-item"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"content-item-inner"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"content-item"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"content-item-inner"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div></pre></td></tr></table></figure>
+<p><img src="/images/css-skill5.png" alt="更好的实现"></p>
+<blockquote>
+<p>行两侧边缘的空隙事实上是在原容器宽度基础上增加的，所以两侧的块都设置paddng就刚好抵消了。为了让人看不出两侧的空隙，颜色一般设置和背景颜色一样。</p>
+</blockquote>
+
+    <div class="navigator">
+      
+     
+      
+         <a class="next" href="/2017/09/20/async/">下一篇</a>
+      
+    </div>
+  </div>
+</div>
+        </div>
+        <span class="controller">
+    <!-- <i class="fa fa-plus" aria-hidden="true"></i> -->
+    <i class="fa fa-times" aria-hidden="true"></i>
+</span>
+<div class="pl-0 pr-0 pt-4 sidebar">
+  <div class="pl-4 pr-4 pb-4 sidebar-inner">
+    <a href="/" class="d-flex justify-content-center">
+      <img src="/images/avatar.png">
+    </a>
+    <div class="category mb-5">
+      <div class="mt-2 pb-2 category-title">
+        <i class="fa fa-user" aria-hidden="true"></i>
+        <span>介绍</span>
+      </div>
+      <div class="category-list mt-2">
+        前端菜鸟
+      </div>
+    </div>
+    
+      
+    <div class="category  mb-5">
+      <div class="mt-2 pb-2 category-title">
+        <i class="fa fa-tags" aria-hidden="true"></i>
+        <span>标签</span>
+      </div>
+      <div class="category-list mt-2">
+        
+          
+        <a class="entry">blockchain</a>
+        
+          
+        <a class="entry">HTTP权威指南</a>
+        
+          
+        <a class="entry">同源策略</a>
+        
+          
+        <a class="entry">vue源码学习笔记</a>
+        
+          
+        <a class="entry">webpack</a>
+        
+          
+        <a class="entry">异步</a>
+        
+          
+        <a class="entry">loader</a>
+        
+          
+        <a class="entry">css</a>
+        
+          
+        <a class="entry">布局</a>
+        
+      </div>
+    </div>
+    
+  </div>
+</div>
+      </div>
+    </div>
+
+      <script src="/assets/jquery-3.2.1.min.js"></script>
+<script src="/js/common.js"></script>
+  </body>
+
+  </html>
