@@ -31,6 +31,8 @@ a {
     .main .content .card-text .post-excerpt * {
       display: inline !important;
       font-size: 1rem !important; }
+    .main .content .card-text .post-excerpt img {
+      display: none !important; }
   .main .content .page-navigator {
     border-top: 1px solid #ddd;
     list-style: none;
