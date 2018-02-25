@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:title"              content="dakang blog" />
+  <meta property="og:description"        content="study" />
+  <!-- Bootstrap Core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    
+    
+    <div class="container main mt-4">
+      <div class="row">
+        <div class="col pr-4">
+          <div>
+  <div id="article">
+    <h1 class="title">用log4js发送邮件</h1>
+    <!-- <div class="tags">
+      <a href=""></a>
+    </div> -->
+    <p>log4js-node是node上的日志输出工具，有很多方便好用的功能，发送邮件是其中一项。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>npm install log4js</p>
+<h2 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h2><p>1.x and 2.x在API上有所区别，这里针对的是2.x</p>
+<h3 id="配置-log4js-configure-object-string"><a href="#配置-log4js-configure-object-string" class="headerlink" title="配置 - log4js.configure(object || string)"></a>配置 - log4js.configure(object || string)</h3><p>object包含配置信息；string可以是配置文件的路径<br>配置中主要有两个比较重要的属性：categories和appenders  </p>
+<ul>
+<li><p>appenders<br>定义是了日志的输出形式，可以是stdout（标准输出流）、file（文件）、smtp（邮件）等</p>
+</li>
+<li><p>categories<br>类别或者说是分组。可以定义类别名称，每个类别下指定有哪些appenders。在进行日志输出时，是可以选择类别的。则日志会以该类别下的各个appenders对应的形式输出。<br>categories中还可以指定level，低于该level的日志是不会发送到appenders的</p>
+</li>
+<li><p>日志级别level<br>ALL &lt; TRACE &lt; DEBUG &lt; INFO &lt; WARN &lt; ERROR &lt; FATAL &lt; MARK &lt; OFF</p>
+</li>
+</ul>
+<h3 id="日志记录器-log4js-getLogger-category"><a href="#日志记录器-log4js-getLogger-category" class="headerlink" title="日志记录器 - log4js.getLogger([category])"></a>日志记录器 - log4js.getLogger([category])</h3><p>指定了类别，获得一个日志记录器。日志记录器的日志会按照该类别的设置进行输出。要输出日志，调用各级别的方法即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var logger=log4js.getLogger()  //不指定类别，默认是defualt类别</div><div class="line">logger.debug(&apos;hello&apos;)</div><div class="line">logger.info(&apos;hello&apos;)</div><div class="line">logger.warn(&apos;hello&apos;)</div><div class="line">logger.error(&apos;hello&apos;)</div></pre></td></tr></table></figure></p>
+<h2 id="邮件发送"><a href="#邮件发送" class="headerlink" title="邮件发送"></a>邮件发送</h2><p>由xxxx@163.com发送一封邮件给xxxx@qq.com，邮件中含有附件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line">var log4js = require(&apos;log4js&apos;)</div><div class="line">log4js.configure(&#123;</div><div class="line">  appenders: &#123;</div><div class="line">    file: &#123;</div><div class="line">      type: &apos;file&apos;,</div><div class="line">      filename: &apos;test-log.log&apos;</div><div class="line">    &#125;,</div><div class="line">    email: &#123;</div><div class="line">      type: &quot;smtp&quot;,</div><div class="line">      recipients: &quot;xxxx@qq.com&quot;, //可以多个，用,隔开</div><div class="line">      subject: &quot;test-log&quot;,//邮件标题</div><div class="line">      sender: &quot;xxxx@163.com&quot;,//发送者</div><div class="line">      attachment: &#123; //如果不需要附件删掉这个即可</div><div class="line">        enable: true,</div><div class="line">        filename: &quot;test-log.log&quot;, //附件文件名</div><div class="line">        message: &quot;附件&quot; //附件名称</div><div class="line">      &#125;,</div><div class="line">      transport: &#123;</div><div class="line">        plugin: &quot;smtp&quot;,</div><div class="line">        options: &#123;</div><div class="line">          host: &quot;smtp.163.com&quot;,//不同邮件服务商的主机名是不同的。登录对应邮箱，在POP3/SMTP/IMAP设置中查看。</div><div class="line">          port: 465,</div><div class="line">          secure: true, // true for 465, false for other ports</div><div class="line">          auth: &#123;</div><div class="line">            user: &quot;xxxx@163.com&quot;,//发送者邮箱</div><div class="line">            pass: &quot;xxxx&quot; //邮箱密码或者是授权码</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      &#125;,</div><div class="line">      html: false,//内容是html还是纯文本形式</div><div class="line">      sendInterval: 0 //秒。每个多少秒后，把收集到的日志信息发送出去</div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  categories: &#123;</div><div class="line">    default: &#123;</div><div class="line">      appenders: [&apos;file&apos;, &apos;email&apos;],</div><div class="line">      level: &apos;debug&apos;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;)</div><div class="line">var logger = log4js.getLogger()</div><div class="line">logger.debug(&quot;test email width log4js&quot;)</div></pre></td></tr></table></figure>
+
+    <div class="navigator">
+      
+     
+      
+         <a class="next" href="/2017/11/19/css/skill/">下一篇</a>
+      
+    </div>
+  </div>
+</div>
+        </div>
+        <span class="controller">
+    <!-- <i class="fa fa-plus" aria-hidden="true"></i> -->
+    <i class="fa fa-times" aria-hidden="true"></i>
+</span>
+<div class="pl-0 pr-0 pt-4 sidebar">
+  <div class="pl-4 pr-4 pb-4 sidebar-inner">
+    <a href="/" class="d-flex justify-content-center">
+      <img src="/images/avatar.png">
+    </a>
+    <div class="category mb-5">
+      <div class="mt-2 pb-2 category-title">
+        <i class="fa fa-user" aria-hidden="true"></i>
+        <span>介绍</span>
+      </div>
+      <div class="category-list mt-2">
+        前端菜鸟
+      </div>
+    </div>
+    
+      
+    <div class="category  mb-5">
+      <div class="mt-2 pb-2 category-title">
+        <i class="fa fa-tags" aria-hidden="true"></i>
+        <span>标签</span>
+      </div>
+      <div class="category-list mt-2">
+        
+          
+        <a class="entry">HTTP权威指南</a>
+        
+          
+        <a class="entry">blockchain</a>
+        
+          
+        <a class="entry">同源策略</a>
+        
+          
+        <a class="entry">vue源码学习笔记</a>
+        
+          
+        <a class="entry">webpack</a>
+        
+          
+        <a class="entry">loader</a>
+        
+          
+        <a class="entry">异步</a>
+        
+          
+        <a class="entry">css</a>
+        
+          
+        <a class="entry">布局</a>
+        
+      </div>
+    </div>
+    
+  </div>
+</div>
+      </div>
+    </div>
+
+      <script src="/assets/jquery-3.2.1.min.js"></script>
+<script src="/js/common.js"></script>
+  </body>
+
+  </html>
