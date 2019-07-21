@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:title" content="dakang blog">
+  <meta property="og:description" content="study">
+  <!-- Bootstrap Core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head></html>
+
+  <body>
+    
+    
+    <div class="container main mt-4">
+      <div class="row">
+        <div class="col pr-4">
+          <div>
+  <div id="article">
+    <h1 class="title">Vuex的state是如何具有响应式的</h1>
+    <!-- <div class="tags">
+      <a href=""></a>
+    </div> -->
+    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Vuex是Vue的状态管理方案，可以让各组件共享状态数据，降低了相互之间通信的复杂度。<br>当更新Vuex的state数据时，发现引用到state数据的组件页面也会同时更新。可见state数据也是响应式的，其作用效果和Vue组件的data数据一致。   </p>
+<p>究竟是如何实现的呢，直接撸源码看看它的秘密。源码都来源于<a href="https://github.com/vuejs/vuex/tree/ffc7d00314a371c09d288bc5123793031d182cd2" target="_blank" rel="noopener">3.1.1版本</a>。</p>
+<h2 id="研究"><a href="#研究" class="headerlink" title="研究"></a>研究</h2><p>下面是Vuex的一个简单使用例子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> store = <span class="keyword">new</span> Vuex.Store(&#123;</span><br><span class="line">  state:&#123;</span><br><span class="line">    count:<span class="number">0</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">var</span> app = <span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  el:<span class="string">'#app'</span>,</span><br><span class="line">  store:store,</span><br><span class="line">  template: <span class="string">'&lt;div&gt;&#123;&#123;$store.state.count&#125;&#125;&lt;/div&gt;'</span></span><br><span class="line">&#125;);</span><br><span class="line">app.$mount();</span><br></pre></td></tr></table></figure>
+<p>当发现执行下面的代码，页面内容从0变成了1，从头到尾仅仅只改变了count的值而已，就好像count字段直接定义在组件的data数据里一样，具有响应式。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">store.state.count = store.state.count +<span class="number">1</span>;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p>来看看Store的构造方法，在<a href="https://github.com/vuejs/vuex/blob/ffc7d00314a371c09d288bc5123793031d182cd2/src/store.js" target="_blank" rel="noopener">/src/store.js</a>中，由于比较长，挑了重点来看。经过一系列的处理（不需要深究），把得到的state传入resetStoreVM方法。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">constructor</span> (options = &#123;&#125;) &#123;</span><br><span class="line">    <span class="comment">// 省略一堆</span></span><br><span class="line">    <span class="keyword">this</span>._modules = <span class="keyword">new</span> ModuleCollection(options)</span><br><span class="line">    <span class="comment">// 省略一堆</span></span><br><span class="line">    <span class="keyword">const</span> state = <span class="keyword">this</span>._modules.root.state</span><br><span class="line"></span><br><span class="line">    <span class="comment">// init root module.</span></span><br><span class="line">    <span class="comment">// this also recursively registers all sub-modules</span></span><br><span class="line">    <span class="comment">// and collects all module getters inside this._wrappedGetters</span></span><br><span class="line">    installModule(<span class="keyword">this</span>, state, [], <span class="keyword">this</span>._modules.root)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// initialize the store vm, which is responsible for the reactivity</span></span><br><span class="line">    <span class="comment">// (also registers _wrappedGetters as computed properties)</span></span><br><span class="line">    resetStoreVM(<span class="keyword">this</span>, state)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 省略一堆</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>来看看resetStoreVM的实现<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">resetStoreVM</span> (<span class="params">store, state, hot</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 省略一堆</span></span><br><span class="line">  store._vm = <span class="keyword">new</span> Vue(&#123;</span><br><span class="line">    data: &#123;</span><br><span class="line">      $$state: state</span><br><span class="line">    &#125;,</span><br><span class="line">    computed</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="comment">// 省略一堆</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>原来state的数据其实就是Vue实例的data数据。这个Vue实例并不关注页面渲染，是为了让state的数据都是响应式的。当其他Vue实例的页面模板对state的数据进行直接或者间接引用时，一样参与依赖收集过程。当state的数据变化时，通过Watcher的作用触发该页面更新。（依赖收集或者Watcher等概念内容，这里不做扩展，可以研究下Vue的响应式原理）</p>
+<h2 id="模拟Vuex"><a href="#模拟Vuex" class="headerlink" title="模拟Vuex"></a>模拟Vuex</h2><p>Vuex代码比较复杂，考虑的情况比较多，不能一下子直观简单的理解state数据的响应式。所以这里实现了个简单版的Vuex.<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Store</span>(<span class="params">options</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> vm = <span class="keyword">new</span> Vue(&#123;</span><br><span class="line">    data: &#123;</span><br><span class="line">      $$state: options.state || &#123;&#125;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="built_in">Object</span>.defineProperty(<span class="keyword">this</span>, <span class="string">'state'</span>, &#123;</span><br><span class="line">    get:<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> vm._data.$$state</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 把store转为内部的$store</span></span><br><span class="line">Vue.mixin(&#123;</span><br><span class="line">  beforeCreate: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.$store = <span class="keyword">this</span>.$options.store;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>下面是使用的例子<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> store = <span class="keyword">new</span> Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    count: <span class="number">0</span></span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">var</span> app = <span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  el: <span class="string">'#app'</span>,</span><br><span class="line">  store: store,</span><br><span class="line">  template: <span class="string">'&lt;div&gt;&#123;&#123;$store.state.count&#125;&#125;&lt;/div&gt;'</span></span><br><span class="line">&#125;);</span><br><span class="line">app.$mount();</span><br></pre></td></tr></table></figure></p>
+<p>当执行 <code>store.state.count = store.state.count +1;</code> ，页面内容从0变成了1。</p>
+
+    <div class="navigator">
+      
+     
+      
+         <a class="next" href="/2018/02/25/log4js-email/">下一篇</a>
+      
+    </div>
+  </div>
+</div>
+        </div>
+        <span class="controller">
+    <!-- <i class="fa fa-plus" aria-hidden="true"></i> -->
+    <i class="fa fa-times" aria-hidden="true"></i>
+</span>
+<div class="pl-0 pr-0 pt-4 sidebar">
+  <div class="pl-4 pr-4 pb-4 sidebar-inner">
+    <a href="/" class="d-flex justify-content-center">
+      <img src="/images/avatar.png">
+    </a>
+    <div class="category mb-5">
+      <div class="mt-2 pb-2 category-title">
+        <i class="fa fa-user" aria-hidden="true"></i>
+        <span>介绍</span>
+      </div>
+      <div class="category-list mt-2">
+        前端菜鸟
+      </div>
+    </div>
+    
+      
+    <div class="category  mb-5">
+      <div class="mt-2 pb-2 category-title">
+        <i class="fa fa-tags" aria-hidden="true"></i>
+        <span>标签</span>
+      </div>
+      <div class="category-list mt-2">
+        
+          
+        <a class="entry">HTTP权威指南</a>
+        
+          
+        <a class="entry">blockchain</a>
+        
+          
+        <a class="entry">同源策略</a>
+        
+          
+        <a class="entry">vue源码学习笔记</a>
+        
+          
+        <a class="entry">webpack</a>
+        
+          
+        <a class="entry">异步</a>
+        
+          
+        <a class="entry">loader</a>
+        
+          
+        <a class="entry">css</a>
+        
+          
+        <a class="entry">布局</a>
+        
+      </div>
+    </div>
+    
+  </div>
+</div>
+      </div>
+    </div>
+
+      <script src="/assets/jquery-3.2.1.min.js"></script>
+<script src="/js/common.js"></script>
+  </body>
+
+  </html>

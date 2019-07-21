@@ -49,3 +49,32 @@ git checkout -t origin/2.0.0
 git branch -D xxxx    //删除本地
 git push origin :xxx  //推送到远程
 ```
+## git clone 指定哪个ssh key
+在config文件配置好了,假设name为test
+```
+git clone git@test:xxxx.git
+```
+
+## 删除在本地有但在远程库中已经不存在的分支
+
+https://blog.csdn.net/sgs595595/article/details/72480346
+```
+git remote prune origin
+```
+
+## 创建SSH key
+```
+ssh-keygen -t rsa
+```
+http://blog.zdakang.com/2017/05/10/ssh-authorize/
+
+## 配置指令
+```
+git config --system --list  // 查看
+git config --system --list  // 查看系统的
+git config --global  --list  // 查看该用户的
+git config --local  --list  // 查看当前仓库的
+
+git config --local xxx.xxx "xxxx" // 修复当前仓库的
+```
+https://www.cnblogs.com/merray/p/6006411.html

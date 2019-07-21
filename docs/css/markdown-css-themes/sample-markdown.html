@@ -1,0 +1,33 @@
+<h1 id="Markdown"><a href="#Markdown" class="headerlink" title="Markdown"></a>Markdown</h1><p>You just have to love the simplicity of <strong>markdown</strong>, it doens’t<br>provide a lot of fancy features that <em>reStructured Text</em> or <em>Textile</em><br>do, but in return, you get a wonderfully straightforward way to create<br>formatted documents, with almost zero overhead.</p>
+<p>It seems to me that technical authors probably have the most to gain<br>from using <strong>markdown</strong>, this is probably why the most popular<br>technical sites on the web use it as their primary text markup<br>language.</p>
+<h2 id="In-Emacs-Markdown-is-awesome"><a href="#In-Emacs-Markdown-is-awesome" class="headerlink" title="In Emacs Markdown is awesome."></a>In Emacs Markdown is awesome.</h2><h4 id="Especially-when-you-customize-the-faces…"><a href="#Especially-when-you-customize-the-faces…" class="headerlink" title="Especially when you customize the faces…"></a>Especially when you customize the faces…</h4><pre><code>M-x customize-group
+markdown
+</code></pre><p>And set some pleasant fonts for your headings, I like Helvetica Neue.</p>
+<hr>
+<p>Lists are phenomenally easy too … </p>
+<ol>
+<li>Just number each item with 1.</li>
+<li>The markdown implementation of your choice will turn it into a<br>numbered list.</li>
+<li><p>Although, I think you will get varying levels of cleverness from<br>different implementations…</p>
+<ol>
+<li>Nested lists work ok. </li>
+<li>But I find as soon as you start to get a bit clever, things tend to go<br>wrong. You won’t have much luck tring to use a combination of code<br>blocks or blockquotes</li>
+</ol>
+<blockquote>
+<p>See what I mean?<br>What did I tell you?</p>
+</blockquote>
+<p>   (defn code-blocks (seriously)</p>
+<pre><code>&quot;it could work!!&quot;
+)
+</code></pre><ol>
+<li>But then what about resuming the list, nah, I don’t think so.</li>
+</ol>
+</li>
+<li><p>Still, it’s much better than doing:</p>
+</li>
+</ol>
+<p>This….</p>
+<pre><code>&lt;ol&gt; 
+   &lt;li&gt;
+&lt;/ol&gt;
+</code></pre>

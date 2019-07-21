@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html>
 
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:title"              content="dakang blog" />
-  <meta property="og:description"        content="study" />
+  <meta property="og:title" content="dakang blog">
+  <meta property="og:description" content="study">
   <!-- Bootstrap Core CSS -->
   <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="/css/style.css">
-</head>
+</head></html>
 
   <body>
     
@@ -41,6 +41,8 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line">var log4js = require(&apos;log4js&apos;)</div><div class="line">log4js.configure(&#123;</div><div class="line">  appenders: &#123;</div><div class="line">    file: &#123;</div><div class="line">      type: &apos;file&apos;,</div><div class="line">      filename: &apos;test-log.log&apos;</div><div class="line">    &#125;,</div><div class="line">    email: &#123;</div><div class="line">      type: &quot;smtp&quot;,</div><div class="line">      recipients: &quot;xxxx@qq.com&quot;, //可以多个，用,隔开</div><div class="line">      subject: &quot;test-log&quot;,//邮件标题</div><div class="line">      sender: &quot;xxxx@163.com&quot;,//发送者</div><div class="line">      attachment: &#123; //如果不需要附件删掉这个即可</div><div class="line">        enable: true,</div><div class="line">        filename: &quot;test-log.log&quot;, //附件文件名</div><div class="line">        message: &quot;附件&quot; //附件名称</div><div class="line">      &#125;,</div><div class="line">      transport: &#123;</div><div class="line">        plugin: &quot;smtp&quot;,</div><div class="line">        options: &#123;</div><div class="line">          host: &quot;smtp.163.com&quot;,//不同邮件服务商的主机名是不同的。登录对应邮箱，在POP3/SMTP/IMAP设置中查看。</div><div class="line">          port: 465,</div><div class="line">          secure: true, // true for 465, false for other ports</div><div class="line">          auth: &#123;</div><div class="line">            user: &quot;xxxx@163.com&quot;,//发送者邮箱</div><div class="line">            pass: &quot;xxxx&quot; //邮箱密码或者是授权码</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      &#125;,</div><div class="line">      html: false,//内容是html还是纯文本形式</div><div class="line">      sendInterval: 0 //秒。每个多少秒后，把收集到的日志信息发送出去</div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  categories: &#123;</div><div class="line">    default: &#123;</div><div class="line">      appenders: [&apos;file&apos;, &apos;email&apos;],</div><div class="line">      level: &apos;debug&apos;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;)</div><div class="line">var logger = log4js.getLogger()</div><div class="line">logger.debug(&quot;test email width log4js&quot;)</div></pre></td></tr></table></figure>
 
     <div class="navigator">
+      
+        <a class="prev" href="/2019/07/21/vuex-responsive/">上一篇</a>
       
      
       
@@ -93,10 +95,10 @@
         <a class="entry">webpack</a>
         
           
-        <a class="entry">loader</a>
+        <a class="entry">异步</a>
         
           
-        <a class="entry">异步</a>
+        <a class="entry">loader</a>
         
           
         <a class="entry">css</a>
