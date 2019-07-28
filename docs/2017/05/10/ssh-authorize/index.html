@@ -27,44 +27,46 @@
     <h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>经常通过ssh访问远程主机需要输入密码之类的，比较繁琐。其实可以让远程主机授权给你当前电脑，并且授权没有设置密码。下次再连接时，可以直接登录。</p>
 <h2 id="生成RSA密钥"><a href="#生成RSA密钥" class="headerlink" title="生成RSA密钥"></a>生成RSA密钥</h2><ul>
 <li><p>使用<code>ssh-keygen</code>命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh-keygen -t rsa</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>使用默认的存放目录，所以回车即可。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Generating public/private rsa key pair.</div><div class="line">Enter file in which to save the key (~/.ssh/id_rsa):</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Generating public/private rsa key pair.</span><br><span class="line">Enter file in which to save the key (~/.ssh/id_rsa):</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>不设置密码直接回车。如果设置了密码，每次进行授权时，都要输入。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Enter passphrase (empty for no passphrase):</div><div class="line">Enter same passphrase again:</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Enter passphrase (empty for no passphrase):</span><br><span class="line">Enter same passphrase again:</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>密钥生成<br>在~/.ssh/目录中会有id_rsa（私钥）、id_rsa.pub（公钥）</p>
 </li>
 </ul>
 <h2 id="在远程主机设置公钥信息"><a href="#在远程主机设置公钥信息" class="headerlink" title="在远程主机设置公钥信息"></a>在远程主机设置公钥信息</h2><h3 id="方案一"><a href="#方案一" class="headerlink" title="方案一"></a>方案一</h3><ul>
-<li>使用<code>ssh-copy-id</code>命令<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh-copy-id -i ~/.ssh/id_rsa.pub username@hostname.com</div></pre></td></tr></table></figure>
+<li>使用<code>ssh-copy-id</code>命令<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-copy-id -i ~/.ssh/id_rsa.pub username@hostname.com</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <blockquote>
 <p>还没有使用ssh授权，所以会被要求输入远程主机的密码</p>
 </blockquote>
 <h3 id="方案二"><a href="#方案二" class="headerlink" title="方案二"></a>方案二</h3><ul>
-<li>把id_rsa.pub上传到远程主机<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scp .ssh/id_rsa.pub username@hostname.com:~</div></pre></td></tr></table></figure>
+<li>把id_rsa.pub上传到远程主机<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp .ssh/id_rsa.pub username@hostname.com:~</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <blockquote>
 <p>scp命令也是基于ssh的。还没有使用ssh授权，所以会被要求输入远程主机的密码</p>
 <ul>
-<li>连接远程主机<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh username@hostname.com</div></pre></td></tr></table></figure>
+<li>连接远程主机<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh username@hostname.com</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
+</blockquote>
+<blockquote>
 <p>同样被要求输入远程主机的密码</p>
 <ul>
-<li>把id_rsa.pub的内容添加到用户根目录的.ssh/authorized_keys文件中<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd ~</div><div class="line">cat id_rsa.pub &gt;&gt; .ssh/authorized_keys</div></pre></td></tr></table></figure>
+<li>把id_rsa.pub的内容添加到用户根目录的.ssh/authorized_keys文件中<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">cat id_rsa.pub &gt;&gt; .ssh/authorized_keys</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 </blockquote>
 <p>参考来源：  </p>
 <ul>
-<li><a href="http://news.softpedia.com/news/How-to-Use-RSA-Key-for-SSH-Authentication-38599.shtml" target="_blank" rel="external">How to Use RSA Key for SSH Authentication</a></li>
-<li><a href="https://testerhome.com/topics/8328" target="_blank" rel="external">远程主机设置公钥信息</a></li>
+<li><a href="http://news.softpedia.com/news/How-to-Use-RSA-Key-for-SSH-Authentication-38599.shtml" target="_blank" rel="noopener">How to Use RSA Key for SSH Authentication</a></li>
+<li><a href="https://testerhome.com/topics/8328" target="_blank" rel="noopener">远程主机设置公钥信息</a></li>
 </ul>
 
     <div class="navigator">

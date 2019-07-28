@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:title" content="dakang blog">
+  <meta property="og:description" content="study">
+  <!-- Bootstrap Core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head></html>
+
+  <body>
+    
+    
+    <div class="container main mt-4">
+      <div class="row">
+        <div class="col pr-4">
+          <div>
+  <div id="article">
+    <h1 class="title">初探RxJS</h1>
+    <!-- <div class="tags">
+      <a href=""></a>
+    </div> -->
+    <h1 id="RxJS是什么"><a href="#RxJS是什么" class="headerlink" title="RxJS是什么"></a>RxJS是什么</h1><p>RxJS是一个库，可以很方便地编写异步和基于事件的程序。<br>关注的重点在数据的产生和发送，是基于Push的。</p>
+<h2 id="Pull和Push"><a href="#Pull和Push" class="headerlink" title="Pull和Push"></a>Pull和Push</h2><p>在Pull系统，消费者决定什么时候接受来自生成者的数据。<br>在Push系统，生产者决定什么时候把数据发送给消费者。  </p>
+<p>举个通俗易懂的例子：  </p>
+<ul>
+<li>组长8点前让我交了作业。(Pull)</li>
+<li>组员8点前把作业交给了组长。(Push)    </li>
+</ul>
+<p>两种情况，都得到一样的结果，组长在8点前收到了作业，但过程是不一样的。是组长主动，还是组员主动的区别。</p>
+<h1 id="RxJS的使用"><a href="#RxJS的使用" class="headerlink" title="RxJS的使用"></a>RxJS的使用</h1><p>看着例子可能更容易理解，上面是一般写法，下面是RxJS写法。</p>
+<ul>
+<li>简单输出</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 生产者部分</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">'Hello'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 消费者部分</span></span><br><span class="line"><span class="keyword">const</span> x = foo.call(); <span class="comment">// 主动获取数据</span></span><br><span class="line"><span class="built_in">console</span>.log(x);</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * output:</span></span><br><span class="line"><span class="comment"> * Hello</span></span><br><span class="line"><span class="comment"> * /</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; Observable &#125; = <span class="built_in">require</span>(<span class="string">'rxjs'</span>);</span><br><span class="line"><span class="comment">// 生产者部分</span></span><br><span class="line"><span class="keyword">const</span> ob = <span class="keyword">new</span> Observable(<span class="function">(<span class="params">subscriber</span>) =&gt;</span> &#123;</span><br><span class="line">  subscriber.next(<span class="string">'Hello'</span>); <span class="comment">// 主动发送数据</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 消费者部分</span></span><br><span class="line">ob.subscribe(<span class="function">(<span class="params">x</span>)=&gt;</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(x);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * output:</span></span><br><span class="line"><span class="comment"> * Hello</span></span><br><span class="line"><span class="comment"> * /</span></span><br></pre></td></tr></table></figure>
+<p>使用rxjs看起来复杂一点，因为功能比较简单   </p>
+<hr>
+<ul>
+<li>每隔1秒输出一次</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 生产者部分</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">"hello"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 消费者部分</span></span><br><span class="line">setInterval(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> x = foo.call();</span><br><span class="line">  <span class="built_in">console</span>.log(x);</span><br><span class="line">&#125;, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; Observable &#125; = <span class="built_in">require</span>(<span class="string">'rxjs'</span>);</span><br><span class="line"><span class="comment">// 生产者部分</span></span><br><span class="line"><span class="keyword">const</span> ob = <span class="keyword">new</span> Observable(<span class="function">(<span class="params">subscriber</span>) =&gt;</span> &#123;</span><br><span class="line">  setInterval(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    subscriber.next(<span class="string">"hello"</span>);</span><br><span class="line">  &#125;, <span class="number">1000</span>);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 消费者部分</span></span><br><span class="line">ob.subscribe(<span class="function">(<span class="params">x</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(x);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>消费者其实只要输出内容就可以了，不需要了解内容是如何产生，及何时到达的</p>
+<hr>
+<ul>
+<li>同时进行每隔1秒输出一次  </li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 生产者部分</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">"hello"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 消费者部分</span></span><br><span class="line">setInterval(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> x = foo.call();</span><br><span class="line">  <span class="built_in">console</span>.log(x);</span><br><span class="line">&#125;, <span class="number">1000</span>);</span><br><span class="line">setInterval(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> x = foo.call();</span><br><span class="line">  <span class="built_in">console</span>.log(x);</span><br><span class="line">&#125;, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; Observable &#125; = <span class="built_in">require</span>(<span class="string">'rxjs'</span>);</span><br><span class="line"><span class="comment">// 生产者部分</span></span><br><span class="line"><span class="keyword">const</span> ob = <span class="keyword">new</span> Observable(<span class="function">(<span class="params">subscriber</span>) =&gt;</span> &#123;</span><br><span class="line">  setInterval(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    subscriber.next(<span class="string">"hello"</span>);</span><br><span class="line">  &#125;, <span class="number">1000</span>);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 消费者部分</span></span><br><span class="line">ob.subscribe(<span class="function">(<span class="params">x</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(x);</span><br><span class="line">&#125;);</span><br><span class="line">ob.subscribe(<span class="function">(<span class="params">x</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(x);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>使用RxJS看起来更简单一点，职责也清晰很多。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>刚接触RxJS，给我的印象是，当原始数据的产生和处理比较复杂时，使用RxJS可能更方便。<br>感觉它是Promise和事件订阅的结合体。</p>
+
+    <div class="navigator">
+      
+     
+      
+         <a class="next" href="/2019/07/21/vuex-responsive/">下一篇</a>
+      
+    </div>
+  </div>
+</div>
+        </div>
+        <span class="controller">
+    <!-- <i class="fa fa-plus" aria-hidden="true"></i> -->
+    <i class="fa fa-times" aria-hidden="true"></i>
+</span>
+<div class="pl-0 pr-0 pt-4 sidebar">
+  <div class="pl-4 pr-4 pb-4 sidebar-inner">
+    <a href="/" class="d-flex justify-content-center">
+      <img src="/images/avatar.png">
+    </a>
+    <div class="category mb-5">
+      <div class="mt-2 pb-2 category-title">
+        <i class="fa fa-user" aria-hidden="true"></i>
+        <span>介绍</span>
+      </div>
+      <div class="category-list mt-2">
+        前端菜鸟
+      </div>
+    </div>
+    
+      
+    <div class="category  mb-5">
+      <div class="mt-2 pb-2 category-title">
+        <i class="fa fa-tags" aria-hidden="true"></i>
+        <span>标签</span>
+      </div>
+      <div class="category-list mt-2">
+        
+          
+        <a class="entry">HTTP权威指南</a>
+        
+          
+        <a class="entry">blockchain</a>
+        
+          
+        <a class="entry">同源策略</a>
+        
+          
+        <a class="entry">vue源码学习笔记</a>
+        
+          
+        <a class="entry">webpack</a>
+        
+          
+        <a class="entry">异步</a>
+        
+          
+        <a class="entry">loader</a>
+        
+          
+        <a class="entry">css</a>
+        
+          
+        <a class="entry">布局</a>
+        
+      </div>
+    </div>
+    
+  </div>
+</div>
+      </div>
+    </div>
+
+      <script src="/assets/jquery-3.2.1.min.js"></script>
+<script src="/js/common.js"></script>
+  </body>
+
+  </html>
